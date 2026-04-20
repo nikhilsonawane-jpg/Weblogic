@@ -1,0 +1,40 @@
+- name: Deploy application on WebLogic
+  hosts: local
+  become: yes
+
+  vars:
+    container_name: weblogic1411
+    war_file: "{{ playbook_dir }}/app/hello-world.war"
+    wlst_script: "{{ playbook_dir }}/wlst/deploy.py"
+
+  tasks:
+
+    - name: Remove existing container (if any)
+      command: docker rm -f {{ container_name }}
+      ignore_errors: yes
+
+    - name: Start WebLogic container
+      command: >
+        docker run -d --name {{ container_name }}
+        --platform linux/amd64
+        -p 7001:7001 -p 8001:8001
+        -v ~/weblogic-docker:/u01/oracle/properties
+        -e DOMAIN_NAME=myDomain
+        -e ADMINISTRATION_PORT_ENABLED=false
+        container-registry.oracle.com/middleware/weblogic:14.1.1.0-11-ol8
+
+    - name: Wait for WebLogic to start
+      pause:
+        seconds: 60   
+
+    - name: Copy WAR file to container
+      command: >
+        docker cp {{ war_file }} {{ container_name }}:/u01/oracle/hello-world.war
+
+    - name: Copy WLST script
+      command: >
+        docker cp {{ wlst_script }} {{ container_name }}:/u01/oracle/deploy.py
+
+    - name: Execute WLST deployment
+      command: >
+        docker exec {{ container_name }} bash -c "/u01/oracle/oracle_common/common/bin/wlst.sh /u01/oracle/deploy.py"
