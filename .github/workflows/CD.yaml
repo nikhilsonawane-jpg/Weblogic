@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, cd-runner]
+    runs-on: [self-hosted, CD]
 
     steps:
       - name: Run Ansible from shared directory
