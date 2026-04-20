@@ -8,16 +8,10 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, CD]
+    runs-on: [self-hosted, cd-runner]
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Copy WAR from shared directory
+      - name: Run Ansible from shared directory
         run: |
-          cp /Users/nikhil/shared-artifacts/hello-world.war ansible/app/
-
-      - name: Run Ansible Playbook
-        run: |
-          ansible-playbook ansible/deploy.yaml
+          cd /Users/nikhil/shared-artifacts
+          ansible-playbook deploy.yaml
