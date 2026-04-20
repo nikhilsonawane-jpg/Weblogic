@@ -1,4 +1,4 @@
-connect('weblogic','Welcome1','t3://host.docker.internal:7001')
+connect('weblogic','Welcome1','t3://localhost:7001')
 edit()
 startEdit()
 
