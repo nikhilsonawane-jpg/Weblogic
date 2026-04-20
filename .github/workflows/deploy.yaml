@@ -1,0 +1,40 @@
+name: Deploy to WebLogic
+
+on:
+  push: 
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Debug Environment
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "List files:"
+          ls -l
+          echo "App folder:"
+          ls -l ansible/app
+
+      - name: Run Playbook
+        run: | 
+          ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
+
+      - name: Wait for WebLogic
+        run: |
+          echo "Waiting for WebLogic..."
+          sleep 90
+
+      - name: Check Application
+        run: |
+          for i in {1..10}; do
+            curl -f http://localhost:7001/hello-world/ && break
+            echo "Retrying..."
+            sleep 10
+          done
