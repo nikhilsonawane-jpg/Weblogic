@@ -1,0 +1,23 @@
+name: CD - Deploy on WebLogic
+
+on:
+  workflow_run:
+    workflows: ["CI - Build and Share Artifact"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, CD]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Copy WAR from shared directory
+        run: |
+          cp /Users/nikhil/shared-artifacts/hello-world.war ansible/app/
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook ansible/deploy.yaml
