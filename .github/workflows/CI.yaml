@@ -21,7 +21,8 @@ jobs:
         run: |
           cp ansible/app/hello-world.war /mnt/shared/app/
           cp ansible/deploy.yaml /mnt/shared/
-          cp ansible/wlst/deploy.py /mnt/shared/
+          cp ansible/wlst/deploy.py /mnt/shared/wlst/
+          
 
       - name: List shared directory
         run: |
