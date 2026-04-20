@@ -1,0 +1,26 @@
+name: CI - Build and Share Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: [self-hosted, CI]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Verify shared mount
+        run: |
+          ls /mnt/shared
+
+      - name: Copy WAR to shared directory
+        run: |
+          cp ansible/app/hello-world.war /mnt/shared/
+
+      - name: List shared directory
+        run: |
+          ls /mnt/shared
