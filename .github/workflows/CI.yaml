@@ -20,6 +20,8 @@ jobs:
       - name: Copy WAR to shared directory
         run: |
           cp ansible/app/hello-world.war /mnt/shared/
+          cp ansible/deploy.yaml /mnt/shared/
+          cp ansible/wlst/deploy.py /mnt/shared/
 
       - name: List shared directory
         run: |
