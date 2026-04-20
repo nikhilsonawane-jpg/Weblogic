@@ -18,7 +18,7 @@
         docker run -d --name {{ container_name }}
         --platform linux/amd64
         -p 7001:7001 -p 8001:8001
-        -v ~/weblogic-docker:/u01/oracle/properties
+        -v /Users/nikhil/weblogic-docker:/u01/oracle/properties
         -e DOMAIN_NAME=myDomain
         -e ADMINISTRATION_PORT_ENABLED=false
         container-registry.oracle.com/middleware/weblogic:14.1.1.0-11-ol8
