@@ -1,6 +1,6 @@
 - name: Deploy application on WebLogic
   hosts: localhost
-  become: yes
+  connection: local
 
   vars:
     container_name: weblogic1411
