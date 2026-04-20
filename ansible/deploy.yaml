@@ -33,7 +33,7 @@
 
     - name: Copy WLST script
       command: >
-        docker cp ./ansible/wlst/deploy.py {{ container_name }}:/u01/oracle/deploy.py
+        docker cp {{ wlst_script }} {{ container_name }}:/u01/oracle/deploy.py
 
     - name: Execute WLST deployment
       command: >
